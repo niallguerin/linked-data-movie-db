@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+
+<!-- BEGIN HEADER FRAGMENT -->
+<head th:replace="uifragments/global-fragments :: htmlhead"></head>
+<!-- END HEADER FRAGMENT -->
+
+<body>
+	<div class="container">
+
+		<!-- begin header navigation -->
+		<nav th:replace="uifragments/global-fragments :: result-header-nav"></nav>
+		<!-- end header navigation -->
+
+		<h4 th:text="#{label.actorProfile}"></h4>
+
+		<!-- BEGIN SPARQL RESULTS TABLE -->
+		<!-- We bind template to the actor object and fetch the Actor class firstname and lastname for this screen -->
+		<p
+			th:text="'Actor Name: ' + ${actor.firstName} + ' ' +  ${actor.lastName}" />
+
+		<div class="well well-sm">
+		
+		<!-- Get the image link from RDF response data from sparql. If nothing there, image will be blank in UI.
+		We do not store any image data or other resource data locally in spring boot web app in resources subdirectory.
+		We load it dynamically based on sparql query/response. -->
+		<div class="clearfix">
+			<!-- CSS hack using hspace from this thread to set horizontal space on the image and text alignment
+			https://stackoverflow.com/questions/22606955/create-space-between-float-image-and-text -->
+			<img th:src="${actor.imageLink}" width="200" height="300" class="pull-left" hspace="20" />			
+			<p th:text="${actor.biography}" />
+		</div>
+		
+		</div>
+		<!-- END SPARQL RESULTS TABLE -->
+
+		<!-- BEGING SPARQL Awards for the Actor into simple table on UI: 
+			sparql currently has one parameter that is fixed for Tom Hanks case, so only display awards for
+			Tom Hanks for now and add update to query or hashmap of a few actors for project, but ultimately
+			query needs to be extended in service layer to allow dynamic parameter passing same as we do for ActorName
+			to sparql request. -->
+		<div th:if="${actor.firstName}=='Tom' and ${actor.lastName}=='Hanks'">
+			<table class="table table-striped">
+				<thead>
+					<tr>
+						<th th:text="#{label.award}"></th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- fill the rows manually as UI display bug with side-by-side table and for:each thymeleaf for each loop
+					and as only using actor tom hanks for award display we can show all his awards -->
+					<tr>
+						<td th:text="${actor.awardLabels[0]}" target="_blank"></td>
+					</tr>
+					<tr>
+						<td th:text="${actor.awardWorks[0]}" target="_blank"></td>
+					</tr>
+					<tr>
+						<td th:text="${actor.awardLabels[1]}" target="_blank"></td>
+					</tr>
+					<tr>
+						<td th:text="${actor.awardWorks[1]}" target="_blank"></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<!-- END SPARQL AWARDS RESULTS TABLE -->
+
+
+		<!-- begin footer navigation -->
+		<nav th:replace="uifragments/global-fragments :: footer-nav"></nav>
+		<!-- end footer navigation -->
+
+	</div>
+	<!-- Javascript library references -->
+	<script th:replace="uifragments/global-script-fragments"></script>
+</body>
+</html>

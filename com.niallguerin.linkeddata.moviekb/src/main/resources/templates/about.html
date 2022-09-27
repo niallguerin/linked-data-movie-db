@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+<!-- BEGIN HEADER FRAGMENT -->
+<head th:replace="uifragments/global-fragments :: htmlhead"></head>
+<!-- END HEADER FRAGMENT -->
+
+<body>
+
+<div class="container">
+
+<!-- about template with static content so text is kept in this one -->
+<p th:text="#{label.about}"></p>
+<p>This web application uses single and federated SPARQL queries to obtain information about actors from favorite movies.</p>
+
+<p>It allows search by actor name, expecting first and last name as a search string. It then provides profile biography data, 
+photos (if available), and awards won by the actor.</p>
+
+<p>The objective is to apply the principles from class lectures with a focus on SPARQL endpoints embedded within a Spring Boot web application.</p>
+
+<p>The application does not store data locally, but the RDF4J framework was used to build the application, and an in-memory graph database can be enabled.</p>
+
+</div>
+
+<!-- Javascript library references -->
+<script th:replace="uifragments/global-script-fragments"></script>
+
+</body>
+</html>

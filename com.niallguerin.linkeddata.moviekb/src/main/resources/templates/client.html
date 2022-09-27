@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<!-- The th:replace function Thymeleaf is like jsp:includes in jsp technology; allows re-use of components in view templates -->
+
+<!-- BEGIN HEADER FRAGMENT -->
+<head th:replace="uifragments/global-fragments :: htmlhead"></head>
+<!-- END HEADER FRAGMENT -->
+
+<body>
+
+<div class="container">
+
+<br />
+
+<div class="jumbotron">
+  <h2 class="display-3">Welcome to the Movie Actor SPARQL Client</h2>
+  <p class="lead">This is a simple SPARQL web application that lets you search for actors, find their film lists, and view their profile information, images, and awards (if any). It is powered by
+  Linked Data Services using SPARQL, DBPEDIA, Wikidata, and RDF4J framework.</p>
+  <hr class="my-4"></hr>
+  <p>To search, enter first and last name of an actor e.g. Daniel Craig, Jodie Foster.</p>
+
+<!-- BEGIN SPARQL Client Search Form -->
+<!-- Main search form for user input for actor query; when they hit submit we fire GET not POST as we are never creating, updating, deleting in this webapp so we stick
+to http conventions and use verbs reflective of task performed. The th: prefixes are triggers to thymeleaf template
+engine we are using its framework and th:object lets us wire in the Actor custom data model entity to allow simulation
+of persistence behaviour and let us use setter/getters if needed.
+ -->
+<form action="#" th:action="@{/search}" th:object="${actor}" method="GET">
+ 		<fieldset>
+     		<label class="col-sm-4"></label>
+     		<input class="form-control" type='text' name='query' />
+     		<input class="btn btn-primary" name="submit" type="submit" value="Search" />
+     	</fieldset>
+</form>
+<!-- END SPARQL Client Search Form -->
+</div>
+		
+</div>
+
+<!-- Javascript library references -->
+<script th:replace="uifragments/global-script-fragments"></script>
+
+</body>
+</html>

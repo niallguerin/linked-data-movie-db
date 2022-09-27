@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<!-- BEGIN HEADER FRAGMENT -->
+<head th:replace="uifragments/global-fragments :: htmlhead"></head>
+<!-- END HEADER FRAGMENT -->
+
+<body>
+	<div class="container">
+
+		<!-- begin header navigation -->
+		<nav th:replace="uifragments/global-fragments :: result-header-nav"></nav>
+		<!-- end header navigation -->
+
+		<h4 th:text="#{label.sparqlResultList}"></h4>
+
+		<!-- BEGIN SPARQ RESULTS TABLE -->
+		<p
+			th:text="'Actor Name: ' + ${actor.firstName} + ' ' +  ${actor.lastName}" />
+
+		<!-- BEGIN SPARQL Client Get Profile Form -->
+		<form action="#" th:action="@{/loadprofile}" th:object="${actor}" method="GET">
+     		<label class="col-sm-4"></label>
+     		<input class="form-control" type='hidden' name='firstName' th:value="${actor.firstName}" />
+     		<input class="form-control" type='hidden' name='lastName' th:value="${actor.lastName}"/>
+     		<input class="btn btn-primary" name="query" type="submit" value="Display Actor Profile" />
+		</form>
+		<!-- END SPARQL Client Get Profile Form -->
+
+		<!-- Load the films for the Actor into simple table on UI. -->
+		<table class="table table-striped">
+			<thead>
+				<tr>
+					<th th:text="#{label.movies}"></th>
+				</tr>
+			</thead>
+			<tbody>
+				<!-- fill the rows dynamically and as we are using linked data, we give user option of clicking directly on linked data result links from sparql query -->
+				<!-- we could further format front-end here and trip the initial namespace, remove underscores. -->
+				<tr th:each="film : ${actor.films}">
+					<td><a th:href="${film}" th:text="${film}" target="_blank"></a></td>
+				</tr>
+			</tbody>
+		</table>
+		<!-- END SPARQL RESULTS TABLE -->
+
+		<!-- begin footer navigation -->
+		<nav th:replace="uifragments/global-fragments :: footer-nav"></nav>
+		<!-- end footer navigation -->
+
+	</div>
+	<!-- Javascript library references -->
+	<script th:replace="uifragments/global-script-fragments"></script>
+</body>
+</html>
